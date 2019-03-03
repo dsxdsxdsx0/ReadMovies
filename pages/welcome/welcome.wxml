@@ -1,0 +1,7 @@
+<view class='welcome'>
+  <image class='user-avatar' src='/images/star48_on@3x.png'></image>
+  <text class='user-name'>Hello, 丁某某</text>
+  <view class='moto-container' bindtap="onContainerTap">
+    <text class='moto'>开启小程序之旅</text>
+  </view>
+</view>
