@@ -25,6 +25,24 @@ Page({
     wx.navigateTo({
       url: 'post-detail/post-detail?id=' + postId,
     })
+  },
+
+  // onSwiperItemTap:function(event){
+  //   var postId = event.currentTarget.dataset.postId;
+  //   console.log("on post ie is =" + postId)
+  //   wx.navigateTo({
+  //     url: 'post-detail/post-detail?id=' + postId,
+  //   })
+  // },
+
+  onSwiperTap:function(event){
+    // target和currentTarget
+    // target指的是当前点击的组件，currentTarget指的是事件捕获的组件
+    // target这里指的是Image， currentTarget指的是swiper
+    var postId = event.target.dataset.postId;
+    wx.navigateTo({
+      url: 'post-detail/post-detail?id=' + postId,
+    })
   }
 
   

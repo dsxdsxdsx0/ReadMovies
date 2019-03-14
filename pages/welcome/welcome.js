@@ -13,7 +13,11 @@ Page({
     // })
 
     // 没有返回键，生命周期走unLoad，不走onHide
-    wx.redirectTo({
+    // wx.redirectTo({
+    //   url: '../posts/posts',
+    // })
+
+    wx.switchTab({
       url: '../posts/posts',
     })
   }
