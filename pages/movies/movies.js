@@ -1,5 +1,6 @@
 // pages/movies/movies.js
 var app = getApp();
+var util = require('../utils/util.js')
 Page({
 
   /**
@@ -20,12 +21,12 @@ Page({
     var top250 = app.globalData.doubanBase + 
       "/v2/movie/top250" + "?start=0&count=3"
     
-    this.getMovieListData(inTheaterUrl, "inTheaters")
-    this.getMovieListData(comingSoonUrl, "comingSoon")
-    this.getMovieListData(top250, "top250")
+    this.getMovieListData(inTheaterUrl, "inTheaters", "正在热映")
+    this.getMovieListData(comingSoonUrl, "comingSoon", "即将上映")
+    this.getMovieListData(top250, "top250", "豆瓣Top250")
   },
 
-  getMovieListData: function(url, settedKey){
+  getMovieListData: function (url, settedKey, categoryTitle){
     var that = this;
     wx.request({
       url: url,
@@ -35,7 +36,7 @@ Page({
       },
       success: function (res) {
         console.log(res)
-        that.processDouban(res, settedKey)
+        that.processDouban(res, settedKey, categoryTitle)
       },
       fail: function () {
         console.log('fail')
@@ -43,7 +44,7 @@ Page({
     })
   },
 
-  processDouban: function (moviesDouban, settedKey){
+  processDouban: function (moviesDouban, settedKey, categoryTitle){
     var movies = []
     for(var idx in moviesDouban.data.subjects){
       var subject = moviesDouban.data.subjects[idx]
@@ -52,6 +53,7 @@ Page({
         title = title.substring(0, 6) + "..."
       }
       var temp = {
+        stars: util.convertToStarsArray(subject.rating.stars),
         title: title,
         average: subject.rating.average,
         coverageUrl: subject.images.large,
@@ -61,6 +63,7 @@ Page({
     }
     var readyData = {}
     readyData[settedKey] = {
+      categoryTitle: categoryTitle,
       movies: movies
     }
     this.setData(readyData)
