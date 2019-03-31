@@ -76,6 +76,16 @@ Page({
     + this.data.totalCount + "&count=20";
     util.http(nextUrl, this.processDoubanData)  
     wx.showNavigationBarLoading()
+ },
+
+// 下拉刷新回调函数
+ onPullDownRefresh: function(){
+   wx.showNavigationBarLoading()
+   this.data.isEmpty = true;
+   this.data.totalMovies={}
+   var pullUrl = this.data.requestUrl + "?start=0&count=20"
+   util.http(pullUrl, this.processDoubanData)
+   wx.stopPullDownRefresh()
  }
 
 

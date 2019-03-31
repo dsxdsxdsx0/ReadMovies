@@ -9,7 +9,10 @@ Page({
   data: {
     inTheaters: {},
     comingSoon: {},
-    top250: {}
+    top250: {},
+    searchResult: {},
+    containerShow: true,
+    searchPannelShow: false
   },
 
   /**
@@ -33,6 +36,13 @@ Page({
     })
   },
 
+  onMovieTap(event){
+    var movieId= event.currentTarget.dataset.movieId
+    wx.navigateTo({
+      url: 'more-detail/more-detail?movieId' + movieId
+    })
+  },
+
   getMovieListData: function (url, settedKey, categoryTitle){
     var that = this;
     wx.request({
@@ -48,6 +58,27 @@ Page({
       fail: function () {
         console.log('fail')
       }
+    })
+  },
+
+  onCancelImgTap(){
+    this.setData({
+      containerShow: true,
+      searchPannelShow: false,
+      searchResult: {}
+    })
+  },
+
+  onBindConfirm(event){
+    var text = event.detail.value
+    var searchUrl = app.globalData.doubanBase + "/v2/movie/search?q=" + text
+    this.getMovieListData(searchUrl, "searchResult", "")
+  },
+
+  onBindFocus: function(event){
+    this.setData({
+      containerShow: false,
+      searchPannelShow: true
     })
   },
 
